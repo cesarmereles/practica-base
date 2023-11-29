@@ -3,6 +3,8 @@ import morgan from "morgan";
 import helmet from "helmet";
 import cors from "cors";
 
+import {startConect} from "./src/settings/database.js"
+
 //variables
 import { config } from "./src/settings/config.js";
 import { productsRouter } from "./src/routes/product-router.js";
@@ -19,6 +21,7 @@ app.use(cors());
 //routes
 app.use("/api/products",productsRouter)
 
-app.listen(config.PORT, () => {
-  console.log(`Server corriendo en ${config.PORT}`);
+app.listen(config.PORT, async() => {
+  await startConect()
+  console.log(`Server corriendo en http://localhost:${config.PORT}`);
 });
