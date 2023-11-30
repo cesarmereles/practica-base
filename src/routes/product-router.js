@@ -1,17 +1,23 @@
-import {Router} from "express"
-import { ctrolListProduct } from "../controllers/product-controllers.js"
+import { Router } from "express";
+import {
+  ctrlCreateListProduct,
+  ctrolDeleteProduct,
+  ctrolGetProduct,
+  ctrolListProduct,
+  ctrolUpdateProduct,
+} from "../controllers/product-controllers.js";
 
-const productsRouter = Router()
+const productsRouter = Router();
 
 //get all products
-productsRouter.get("/",ctrolListProduct)
+productsRouter.get("/", ctrolListProduct);
 
 //create new products
-productsRouter.post("/",ctrolListProduct)
+productsRouter.post("/", ctrlCreateListProduct);
 
 //get one, update, and delete product
-productsRouter.get("/:productId",ctrolListProduct)
-productsRouter.put("/:productId",ctrolListProduct)
-productsRouter.delete("/:productId",ctrolListProduct)
+productsRouter.get("/:productId", ctrolGetProduct);
+productsRouter.patch("/:productId", ctrolUpdateProduct);
+productsRouter.delete("/:productId", ctrolDeleteProduct);
 
-export {productsRouter}
+export { productsRouter };
