@@ -15,6 +15,9 @@ const ProductSchema = new Schema({
     maxLength: 200,
     minLength: 3,
   },
+  slug:{
+    type:String
+  },
   price: {
     type: Number,
     required: true,
@@ -48,7 +51,13 @@ ProductSchema.pre("save", function (next) {
   }
   //*CONTROLAMOS QUE NO PERMITA AGREGAR CARACTERES ESTRAÑOS
   if (this.isModified("name")) {
-    this.name = +this.price.toFixed(2);
+    //this.name = this.name.replace(/[^\w\s]/g,'')
+    this.slug = this.name.replace(/ /g,"_")
+    this.name = this.name.toLowerCase()
+  }
+  if(this.isModified("stock")){
+    this.stock= parseInt(this.stock)
+    
   }
   next();
 });

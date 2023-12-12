@@ -38,20 +38,40 @@ export const ctrolGetProduct = async (req, res) => {
   }
 };
 //*PARA ACTUALIZAR UN REGISTRO VIA ID
+// export const ctrolUpdateProduct = async (req, res) => {
+//   const { productId } = req.params;
+//   try {
+//     const updateProduct = await ProductModel.findOneAndUpdate(
+//       { _id: productId },
+//       req.body,
+//       { new: true } //esto devuelve las propiedades editadas
+//     );
+//     res.json(updateProduct);
+//   } catch (error) {
+//     console.log(error);
+//     res.sendStatus(500);
+//   }
+// };
+
 export const ctrolUpdateProduct = async (req, res) => {
   const { productId } = req.params;
   try {
-    const updateProduct = await ProductModel.findOneAndUpdate(
-      { _id: productId },
-      req.body,
-      { new: true } //esto devuelve las propiedades editadas
-    );
+    const updateProduct = await ProductModel.findOne({ 
+      _id: productId, 
+    });
+    if(!updateProduct)  return res.sendStatus(404)
+
+    updateProduct.set(req.body)
+    
+    await updateProduct.save()
+
     res.json(updateProduct);
   } catch (error) {
     console.log(error);
     res.sendStatus(500);
   }
 };
+
 
 export const ctrolDeleteProduct = async (req, res) => {
   const { productId } = req.params;
