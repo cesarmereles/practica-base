@@ -2,7 +2,10 @@ import { ProductModel } from "../models/product-model.js";
 //*TIENE QUE SER FUNCIONES ASINCRONAS
 export const ctrlCreateListProduct = async (req, res) => {
   try {
-    const newProduct = await ProductModel.create(req.body);
+    //const newProduct = await ProductModel.create(req.body);
+    //*OTRA FORMA DE CREAR UN PRODUCTO
+    const newProduct = new ProductModel(req.body);
+    await newProduct.save();
     res.status(201).json(newProduct);
   } catch (error) {
     console.log(error);
@@ -12,6 +15,7 @@ export const ctrlCreateListProduct = async (req, res) => {
 //*TODOS LOS POST CON EL METODO FIND TRAE TODOS LOS REGISTROS
 export const ctrolListProduct = async (req, res) => {
   try {
+    //{}, ["-__v"] CON ESTE CONTROL OMITO __V
     const allProducts = await ProductModel.find({}, ["-__v"]);
     if (allProducts.length < 1) return res.sendStatus(204);
     res.json(allProducts);
@@ -40,7 +44,7 @@ export const ctrolUpdateProduct = async (req, res) => {
     const updateProduct = await ProductModel.findOneAndUpdate(
       { _id: productId },
       req.body,
-      { new: true }
+      { new: true } //esto devuelve las propiedades editadas
     );
     res.json(updateProduct);
   } catch (error) {

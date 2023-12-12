@@ -8,7 +8,7 @@ import {
 } from "../controllers/product-controllers.js";
 
 const productsRouter = Router();
-
+//todo EN LAS RUTAS DEBO CONTROLAR
 //get all products
 productsRouter.get("/", ctrolListProduct);
 

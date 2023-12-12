@@ -7,6 +7,7 @@ const ProductSchema = new Schema({
     required: true,
     maxLength: 50,
     minLength: 3,
+    trim: true,
   },
   description: {
     type: String,
@@ -38,5 +39,17 @@ const ProductSchema = new Schema({
     default: false,
   },
 });
-
+//todo esta funcionalidad nos permite controlar antes de que se guarde
+ProductSchema.pre("save", function (next) {
+  //this.isModified devuelve true o false tanto cuando se guarda o edita
+  //*REDONDEA UN NUMERO
+  if (this.isModified("price")) {
+    this.price = +this.price.toFixed(2);
+  }
+  //*CONTROLAMOS QUE NO PERMITA AGREGAR CARACTERES ESTRAÑOS
+  if (this.isModified("name")) {
+    this.name = +this.price.toFixed(2);
+  }
+  next();
+});
 export const ProductModel = model("Product", ProductSchema);
